@@ -1,0 +1,6 @@
+hash: b970b0a1e4c106f469c7cdde701bfad6ccfdf76efd074de2cf8e44cd42de0434
+updated: 2016-01-21T02:04:50.212076448+03:00
+imports:
+- name: github.com/paypal/gatt
+  version: 4ae819d591cfc94c496c45deb55928469542beec
+devImports: []
