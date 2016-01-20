@@ -1,7 +1,5 @@
 .idea
 *.iml
 
-saberlight
-
 apk/**
 !apk/apk.sh
