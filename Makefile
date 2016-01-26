@@ -1,8 +1,9 @@
 BINARY=saberlight
 VERSION=$(shell git rev-parse --short HEAD)
+SRC_DIR=app
 
 build:
-	cd app && go build -o ${BINARY} -ldflags "-X github.com/madhead/saberlight/app/commands.version=${VERSION}" saberlight.go
+	cd ${SRC_DIR} && go build -o ${BINARY} -ldflags "-X github.com/madhead/saberlight/app/commands.version=${VERSION}" saberlight.go
 
 test:
-	cd app && go test $(shell go list ./... | grep -v vendor)
+	cd ${SRC_DIR} && go test $(shell go list ./... | grep -v vendor)
