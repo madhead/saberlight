@@ -5,4 +5,10 @@ go:
 
 sudo: false
 
-script: make build -f app/Makefile
+env:
+  global:
+    - GOOS=linux
+    - GOARCH=amd64
+    - GO15VENDOREXPERIMENT=1
+
+script: make build
