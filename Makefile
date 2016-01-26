@@ -2,4 +2,7 @@ BINARY=saberlight
 VERSION=$(shell git rev-parse --short HEAD)
 
 build:
-	go build -o app/${BINARY} -ldflags "-X github.com/madhead/saberlight/app/commands.version=${VERSION}" app/saberlight.go
+	cd app && go build -o ${BINARY} -ldflags "-X github.com/madhead/saberlight/app/commands.version=${VERSION}" saberlight.go
+
+test:
+	cd app && go test $(shell go list ./... | grep -v vendor)

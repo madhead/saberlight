@@ -11,4 +11,4 @@ env:
     - GOARCH=amd64
     - GO15VENDOREXPERIMENT=1
 
-script: make build
+script: make test
