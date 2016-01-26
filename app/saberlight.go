@@ -16,5 +16,7 @@ func main() {
 		commands.Dump()
 	case cli.Server.FullCommand():
 		commands.Server()
+	case cli.Version.FullCommand():
+		commands.Version()
 	}
 }

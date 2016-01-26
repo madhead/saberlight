@@ -12,4 +12,5 @@ var (
 	Dump          = App.Command("dump", "Dump BLE device")
 	DumpTarget    = Dump.Arg("id", "Device to dump").Required().String()
 	Server        = App.Command("server", "Start REST server")
+	Version       = App.Command("version", "Print app's version")
 )
