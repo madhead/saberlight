@@ -11,48 +11,49 @@ import (
 
 //TODO: should scan only for supported BLE devices
 func Scan() {
-	//TODO: Sometimes gatt.NewDevice blocks indefinitely:
-	//  h, err := linux.NewHCI(d.devID, d.chkLE, d.maxConn)
-	//  h.resetDevice()
-	//  if err := h.c.SendAndCheckResp(s, []byte{0x00}); err != nil {
-	//..due to device doesn't respond to a command (e.g. opReset = hostCtl<<10 | 0x0003 // Reset)
-	device, err := gatt.NewDevice([]gatt.Option{
-		gatt.LnxDeviceID(-1, true),
-		gatt.LnxMaxConnections(1),
-	}...)
+	deviceReady := make(chan gatt.Device)
 
-	if err != nil {
-		log.Fatalf("Failed to open device: %v\n", err)
-	}
+	// Sometimes gatt.NewDevice blocks indefinitely:
+	// h, err := linux.NewHCI(d.devID, d.chkLE, d.maxConn)
+	// h.resetDevice()
+	// if err := h.c.SendAndCheckResp(s, []byte{0x00}); err != nil {
+	// ...due to device doesn't respond to a command (e.g. opReset = hostCtl<<10 | 0x0003 // Reset)
+	// so wrap this in gorutine and timeout it
+	go func() {
+		device, err := gatt.NewDevice([]gatt.Option{
+			gatt.LnxDeviceID(-1, true),
+			gatt.LnxMaxConnections(1),
+		}...)
 
-	deviceReady := make(chan bool)
-
-	device.Init(func(device gatt.Device, state gatt.State) {
-		if state == gatt.StatePoweredOn {
-			deviceReady <- true
-			close(deviceReady)
+		if err != nil {
+			log.Fatalf("Failed to open device: %v\n", err)
 		}
-	})
+
+		device.Init(func(device gatt.Device, state gatt.State) {
+			if state == gatt.StatePoweredOn {
+				deviceReady <- device
+				close(deviceReady)
+			}
+		})
+	}()
 
 	select {
 	case <-time.After(*cli.DeviceTimeout):
 		log.Fatalln("HCI device timed out")
-	case <-deviceReady:
-		log.Println("HCI device is ready")
-	}
+	case device := <-deviceReady:
+		peripherals := make(map[string]gatt.Peripheral)
 
-	peripherals := make(map[string]gatt.Peripheral)
+		device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
+			peripherals[peripheral.ID()] = peripheral
+		}))
 
-	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
-		peripherals[peripheral.ID()] = peripheral
-	}))
-
-	log.Println("Scanning devices")
-	device.Scan([]gatt.UUID{}, false)
-	time.Sleep(*cli.ScanPeriod)
-	device.StopScanning()
-	log.Println("Scan results:")
-	for id, peripheral := range peripherals {
-		log.Printf("ID: %s, Name: %v\n", id, peripheral.Name())
+		log.Println("Scanning devices")
+		device.Scan([]gatt.UUID{}, false)
+		time.Sleep(*cli.ScanPeriod)
+		device.StopScanning()
+		log.Println("Scan results:")
+		for id, peripheral := range peripherals {
+			log.Printf("ID: %s, Name: %v\n", id, peripheral.Name())
+		}
 	}
 }
