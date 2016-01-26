@@ -3,3 +3,6 @@
 
 apk/**
 !apk/apk.sh
+
+app/saberlight
+app/app
