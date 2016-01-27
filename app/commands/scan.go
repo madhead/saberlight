@@ -16,7 +16,7 @@ func Scan() {
 	device, err := util.OpenHCI()
 
 	if err != nil {
-		os.Exit(util.ExitStatusDeviceError)
+		os.Exit(util.ExitStatusHCIError)
 	}
 
 	peripherals := make(map[string]gatt.Peripheral)
