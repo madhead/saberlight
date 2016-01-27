@@ -12,7 +12,6 @@ import (
 )
 
 // Scan scans for nearby BLE bulbs
-// TODO: scan only for supported BLE bulbs
 func Scan() {
 	device, err := util.OpenHCI()
 
