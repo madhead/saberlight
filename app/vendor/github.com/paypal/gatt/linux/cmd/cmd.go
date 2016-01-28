@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 
 	"github.com/paypal/gatt/linux/evt"
 	"github.com/paypal/gatt/linux/util"
@@ -23,6 +24,7 @@ func NewCmd(d io.Writer) *Cmd {
 		sent:    []*cmdPkt{},
 		compc:   make(chan evt.CommandCompleteEP),
 		statusc: make(chan evt.CommandStatusEP),
+		closec:  make(chan bool),
 	}
 	go c.processCmdEvents()
 	return c
@@ -49,6 +51,7 @@ type Cmd struct {
 	sent    []*cmdPkt
 	compc   chan evt.CommandCompleteEP
 	statusc chan evt.CommandStatusEP
+	closec  chan bool
 }
 
 func (c Cmd) trace(fmt string, v ...interface{}) {}
@@ -101,6 +104,12 @@ func (c *Cmd) SendAndCheckResp(cp CmdParam, exp []byte) error {
 	return nil
 }
 
+func (c *Cmd) Close() {
+	c.closec <- true
+}
+
+var id = rand.Int()
+
 func (c *Cmd) processCmdEvents() {
 	for {
 		select {
@@ -130,6 +139,10 @@ func (c *Cmd) processCmdEvents() {
 			if !found {
 				log.Printf("Can't find the cmdPkt for this CommandCompleteEP: %v", comp)
 			}
+		case <-c.closec:
+			return
+		default:
+			log.Printf("processCmdEvents[%v]", id)
 		}
 	}
 }

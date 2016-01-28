@@ -87,6 +87,7 @@ func (h *HCI) Close() error {
 	for _, c := range h.conns {
 		c.Close()
 	}
+	h.c.Close()
 	return h.d.Close()
 }
 
