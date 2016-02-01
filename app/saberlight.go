@@ -10,13 +10,13 @@ import (
 
 func main() {
 	switch kingpin.MustParse(cli.App.Parse(os.Args[1:])) {
+	case cli.Version.FullCommand():
+		commands.Version()
 	case cli.Scan.FullCommand():
 		commands.Scan()
 	case cli.Dump.FullCommand():
 		commands.Dump()
-	case cli.Server.FullCommand():
-		commands.Server()
-	case cli.Version.FullCommand():
-		commands.Version()
+	case cli.SetColor.FullCommand():
+		commands.SetColor()
 	}
 }
