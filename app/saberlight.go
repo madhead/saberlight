@@ -16,7 +16,9 @@ func main() {
 		commands.Scan()
 	case cli.Dump.FullCommand():
 		commands.Dump()
-	case cli.SetColor.FullCommand():
-		commands.SetColor()
+	case cli.Color.FullCommand():
+		commands.Color()
+	case cli.Mode.FullCommand():
+		commands.Mode()
 	}
 }

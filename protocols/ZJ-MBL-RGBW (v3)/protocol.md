@@ -14,7 +14,7 @@ There are three main ways to interact with a bulb:
 1. **Write and listen** for notifications. Write a characteristic while subscribed for notifications. As a result of value write, another characteristics may fire a notification.
 1. **Direct read of a characteristic**. Read-only access to some parameters.
 
-Most of the communication with a bulb is done via two characteristcs — `FFE9` and `FFE4` — in a write-and-listen manner: you write a data into `FFE9` and listen for `FFE4`'s notifications. 
+Most of the communication with a bulb is done via two characteristcs — `FFE9` and `FFE4` — in a write-and-listen manner: you write a data into `FFE9` and listen for `FFE4`'s notifications.
 
 # The protocol
 
@@ -644,7 +644,6 @@ Payload _must_ be 7 bytes long.
 1. `0x36`: Purple strobe flash
 1. `0x37`: White strobe flash
 1. `0x38`: Seven color jumping change
-
 
 ## Speed
 

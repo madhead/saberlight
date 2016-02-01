@@ -12,8 +12,13 @@ import (
 	"github.com/paypal/gatt"
 )
 
-// Color sets color
-func Color() {
+// Mode sets mode
+func Mode() {
+	if (*cli.ModeMode < 0x25) || (*cli.ModeMode > 0x38) {
+		log.Error.Println("Unknown mode")
+		os.Exit(util.ExitStatusGenericError)
+	}
+
 	device, err := util.OpenHCI()
 
 	if err != nil {
@@ -23,7 +28,7 @@ func Color() {
 	done := make(chan bool)
 
 	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
-		if strings.ToUpper(*cli.ColorTarget) == strings.ToUpper(peripheral.ID()) {
+		if strings.ToUpper(*cli.ModeTarget) == strings.ToUpper(peripheral.ID()) {
 			device.Handle(gatt.PeripheralConnected(func(peripheral gatt.Peripheral, err error) {
 				defer device.CancelConnection(peripheral)
 
@@ -45,7 +50,7 @@ func Color() {
 
 						for _, characteristic := range characteristics {
 							if characteristic.UUID().Equal(gatt.MustParseUUID("FFD9")) {
-								peripheral.WriteCharacteristic(characteristic, []byte{0x56, *cli.ColorRed, *cli.ColorGreen, *cli.ColorBlue, 0x00, 0xF0, 0xAA}, false)
+								peripheral.WriteCharacteristic(characteristic, []byte{0xBB, *cli.ModeMode, *cli.ModeSpeed, 0x44}, false)
 
 								break
 							}
@@ -68,9 +73,9 @@ func Color() {
 
 	select {
 	case <-time.After(*cli.ScanPeriod):
-		log.Error.Println("Failed to set color for target device")
+		log.Error.Println("Failed to set mode for target device")
 		os.Exit(util.ExitStatusGenericError)
 	case <-done:
-		log.Info.Println("Color set successfully")
+		log.Info.Println("Mode set successfully")
 	}
 }
