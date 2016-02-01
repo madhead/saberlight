@@ -2,7 +2,7 @@
 
 <img src="../ZJ-MBL-RGBW (v3)/sample.png" alt="Subject appearance" width="100%">
 
-This document describes GATT characteristics used to control Triones smart RGBW BLE bulbs (like on the picture above). Yes, they look the same as [Zengge bulbs](../ZJ-MBL-RGBW (v3)). My guess is that all cheap Chinese bulbs looks identically to each other, and only differ in GATT characteristics UUIDs.
+This document describes GATT characteristics used to control Triones smart RGBW BLE bulbs (like on the picture above). Yes, they look the same as [Zengge bulbs](../ZJ-MBL-RGBW (v3)/protocol.md). My guess is that all cheap Chinese bulbs looks identically to each other, and only differ in GATT characteristics UUIDs.
 
 All the text below is a result of my own experience of reverse-engineering its protocol. Use it at your own risk, **I am not responsible for your hardware.**
 
