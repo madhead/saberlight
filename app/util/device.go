@@ -16,13 +16,13 @@ type deviceResult struct {
 
 // OpenHCI opens HCI device for future interactions
 func OpenHCI() (gatt.Device, error) {
+
 	// Sometimes gatt.NewDevice blocks indefinitely:
 	// h, err := linux.NewHCI(d.devID, d.chkLE, d.maxConn)
 	// h.resetDevice()
 	// if err := h.c.SendAndCheckResp(s, []byte{0x00}); err != nil {
 	// ...due to device doesn't respond to a command (e.g. opReset = hostCtl<<10 | 0x0003 // Reset)
 	// so wrap this in gorutine and timeout it
-
 	deviceReady := make(chan *deviceResult)
 
 	// TODO: when running webserver, this gouroutine can run forever, causing leaks!
