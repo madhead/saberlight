@@ -3,6 +3,7 @@
 
 apk/**
 !apk/apk.sh
+!apk/README.md
 
 app/saberlight
 app/app
