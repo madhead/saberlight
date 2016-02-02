@@ -9,16 +9,16 @@ var (
 	DeviceTimeout = App.Flag("deviceTimeout", "Maximum wait time for HCI to start").Default("3s").Duration()
 	ScanPeriod    = App.Flag("scanPeriod", "Scan period").Default("5s").Duration()
 	Version       = App.Command("version", "Print app's version")
-	Scan          = App.Command("scan", "Scan for BLE devices")
-	Dump          = App.Command("dump", "Dump BLE device")
-	DumpTarget    = Dump.Arg("id", "Device to dump").Required().String()
+	Scan          = App.Command("scan", "Scan for bulbs")
+	Dump          = App.Command("dump", "Dump bulb")
+	DumpTarget    = Dump.Arg("id", "Bulb to dump").Required().String()
 	Color         = App.Command("color", "Set static color")
-	ColorTarget   = Color.Arg("id", "Target device").Required().String()
+	ColorTarget   = Color.Arg("id", "Target bulb").Required().String()
 	ColorRed      = Color.Arg("red", "Red color component").Required().Uint8()
 	ColorGreen    = Color.Arg("green", "Green color component").Required().Uint8()
 	ColorBlue     = Color.Arg("blue", "Blue color component").Required().Uint8()
 	Mode          = App.Command("mode", "Set predefined mode")
-	ModeTarget    = Mode.Arg("id", "Target device").Required().String()
+	ModeTarget    = Mode.Arg("id", "Target bulb").Required().String()
 	ModeMode      = Mode.Arg("mode", `Mode number:
 		0x25: Seven color cross fade
 		0x26: Red gradual change
@@ -46,4 +46,8 @@ var (
 		...
 		0xFF: The slowest
 	`).Required().Uint8()
+	On        = App.Command("on", "Power bulb on")
+	OnTarget  = On.Arg("id", "Target bulb").Required().String()
+	Off       = App.Command("off", "Power bulb off")
+	OffTarget = Off.Arg("id", "Target bulb").Required().String()
 )

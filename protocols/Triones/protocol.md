@@ -18,7 +18,65 @@ TODO
 
 ## Power
 
-TODO
+### Set current power status
+
+Power is turned on and off via write request to `FFD9` characteristic under `FFD5` servce. Check [the code](../../app/commands/power.go) for more details.
+
+#### Requests
+
+<table>
+	<tbody>
+		<tr>
+			<td>Type</td>
+			<td>Write</td>
+		</tr>
+		<tr>
+			<td>Write to</td>
+			<td><code>FFD9</code></td>
+		</tr>
+		<tr>
+			<td>Payload</td>
+			<td>See below</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Payload description
+
+Payload _must_ be 3 bytes long.
+
+1. `payload[0]` _must_ be equal to magic constant `0xCC`
+1. `payload[3]`: `0x23` for "ON" and `0x24` for "OFF"
+1. `payload[6]` _must_ be equal to magic constant `0x33`
+
+#### Example
+
+<details>
+<table>
+	<thead>
+		<tr>
+			<th>Magic</th>
+			<th>Power status</th>
+			<th>Magic</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td title="Constant value 0xCC"><code>0xCC</code></td>
+			<td title="ON"><code>0x23</code></td>
+			<td title="Constant value 0x33"><code>0x33</code></td>
+			<td>Turn power on</td>
+		</tr>
+		<tr>
+			<td title="Constant value 0xCC"><code>0xCC</code></td>
+			<td title="OFF"><code>0x24</code></td>
+			<td title="Constant value 0x33"><code>0x33</code></td>
+			<td>Turn power off</td>
+		</tr>
+	</tbody>
+</table>
+</details>
 
 ## Static color mode
 
@@ -58,7 +116,6 @@ Payload _must_ be 7 bytes long.
 #### Examples
 
 <details>
-
 <table>
 	<thead>
 		<tr>
@@ -115,7 +172,6 @@ Payload _must_ be 7 bytes long.
 		</tr>
 	</tbody>
 </table>
-
 </details>
 
 ## Built-in mode
@@ -153,7 +209,6 @@ Payload _must_ be 4 bytes long.
 #### Examples
 
 <details>
-
 <table>
 	<thead>
 		<tr>
@@ -181,7 +236,6 @@ Payload _must_ be 4 bytes long.
 		</tr>
 	</tbody>
 </table>
-
 </details>
 
 ## Clock

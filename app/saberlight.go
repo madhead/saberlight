@@ -14,6 +14,10 @@ func main() {
 		commands.Version()
 	case cli.Scan.FullCommand():
 		commands.Scan()
+	case cli.On.FullCommand():
+		commands.On()
+	case cli.Off.FullCommand():
+		commands.Off()
 	case cli.Dump.FullCommand():
 		commands.Dump()
 	case cli.Color.FullCommand():
