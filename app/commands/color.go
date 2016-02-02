@@ -24,36 +24,19 @@ func Color() {
 
 	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
 		if strings.ToUpper(*cli.ColorTarget) == strings.ToUpper(peripheral.ID()) {
+			log.Info.Println("Device found")
+
 			device.Handle(gatt.PeripheralConnected(func(peripheral gatt.Peripheral, err error) {
 				defer device.CancelConnection(peripheral)
 
-				services, err := peripheral.DiscoverServices(nil)
+				characteristic, err := util.GetCharacteristic(peripheral, gatt.MustParseUUID("FFD5"), gatt.MustParseUUID("FFD9"))
 
-				if err != nil {
-					log.Error.Printf("Failed to discover services: %v\n", err)
+				if (err != nil) || (nil == characteristic) {
+					log.Error.Printf("Failed to get characteristic: %v\n", err)
 					os.Exit(util.ExitStatusGenericError)
 				}
 
-				for _, service := range services {
-					if service.UUID().Equal(gatt.MustParseUUID("FFD5")) {
-						characteristics, err := peripheral.DiscoverCharacteristics(nil, service)
-
-						if err != nil {
-							log.Error.Printf("Failed to discover characteristics: %v\n", err)
-							os.Exit(util.ExitStatusGenericError)
-						}
-
-						for _, characteristic := range characteristics {
-							if characteristic.UUID().Equal(gatt.MustParseUUID("FFD9")) {
-								peripheral.WriteCharacteristic(characteristic, []byte{0x56, *cli.ColorRed, *cli.ColorGreen, *cli.ColorBlue, 0x00, 0xF0, 0xAA}, false)
-
-								break
-							}
-						}
-
-						break
-					}
-				}
+				peripheral.WriteCharacteristic(characteristic, []byte{0x56, *cli.ColorRed, *cli.ColorGreen, *cli.ColorBlue, 0x00, 0xF0, 0xAA}, false)
 
 				done <- true
 			}))

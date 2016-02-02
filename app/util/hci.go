@@ -59,3 +59,32 @@ func OpenHCI() (gatt.Device, error) {
 		return device.device, device.err
 	}
 }
+
+// GetCharacteristic searches for a characteristic by its UUID
+func GetCharacteristic(peripheral gatt.Peripheral, serviceUUID gatt.UUID, characteristicUUID gatt.UUID) (*gatt.Characteristic, error) {
+	services, err := peripheral.DiscoverServices(nil)
+
+	if err != nil {
+		log.Error.Printf("Failed to discover services: %v\n", err)
+		return nil, errors.New("Failed to discover services")
+	}
+
+	for _, service := range services {
+		if service.UUID().Equal(serviceUUID) {
+			characteristics, err := peripheral.DiscoverCharacteristics(nil, service)
+
+			if err != nil {
+				log.Error.Printf("Failed to discover characteristics: %v\n", err)
+				return nil, errors.New("Failed to discover characteristics")
+			}
+
+			for _, characteristic := range characteristics {
+				if characteristic.UUID().Equal(characteristicUUID) {
+					return characteristic, nil
+				}
+			}
+		}
+	}
+
+	return nil, nil
+}
