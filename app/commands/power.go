@@ -13,12 +13,17 @@ import (
 )
 
 // On turns bulb on
-var On = powerManagementFunction(cli.OnTarget, 0x23)
+var On = powerManagementFunction(cli.OnTarget, true)
 
 // Off turns bulb off
-var Off = powerManagementFunction(cli.OffTarget, 0x24)
+var Off = powerManagementFunction(cli.OffTarget, false)
 
-func powerManagementFunction(target *string, status byte) func() {
+func powerManagementFunction(target *string, status bool) func() {
+	statusIndicator := byte(0x23)
+	if !status {
+		statusIndicator = byte(0x24)
+	}
+
 	return func() {
 		device, err := util.OpenHCI()
 
@@ -42,7 +47,7 @@ func powerManagementFunction(target *string, status byte) func() {
 						os.Exit(util.ExitStatusGenericError)
 					}
 
-					peripheral.WriteCharacteristic(characteristic, []byte{0xCC, status, 0x33}, false)
+					peripheral.WriteCharacteristic(characteristic, []byte{0xCC, statusIndicator, 0x33}, false)
 
 					done <- true
 				}))
