@@ -1,3 +1,3 @@
 # SaberLight
 
-Collection of tools to control some "smart" BLE bulbs. 
+Collection of tools to control some "smart" BLE bulbs.
