@@ -327,12 +327,12 @@ TODO
 1. `0x27`: Green gradual change
 1. `0x28`: Blue gradual change
 1. `0x29`: Yellow gradual change
-1. `0x2a`: Cyan gradual change
-1. `0x2b`: Purple gradual change
-1. `0x2c`: White gradual change
-1. `0x2d`: Red, Green cross fade
-1. `0x2e`: Red blue cross fade
-1. `0x2f`: Green blue cross fade
+1. `0x2A`: Cyan gradual change
+1. `0x2B`: Purple gradual change
+1. `0x2C`: White gradual change
+1. `0x2D`: Red, Green cross fade
+1. `0x2E`: Red blue cross fade
+1. `0x2F`: Green blue cross fade
 1. `0x30`: Seven color stobe flash
 1. `0x31`: Red strobe flash
 1. `0x32`: Green strobe flash
