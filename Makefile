@@ -1,5 +1,5 @@
 BINARY=saberlight
-VERSION=$(shell git rev-parse --short HEAD)
+VERSION=$(shell printf "r%s.%s" "$(shell git rev-list --count HEAD)" "$(shell git rev-parse --short HEAD)")
 SRC_DIR=app
 
 build:
