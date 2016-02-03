@@ -22,6 +22,8 @@ func main() {
 		commands.Dump()
 	case cli.Color.FullCommand():
 		commands.Color()
+	case cli.White.FullCommand():
+		commands.White()
 	case cli.Mode.FullCommand():
 		commands.Mode()
 	}
