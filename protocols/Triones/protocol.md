@@ -109,7 +109,7 @@ Payload _must_ be 7 bytes long.
 1. `payload[1]`: red color component
 1. `payload[2]`: green color component
 1. `payload[3]`: blue color component
-1. `payload[4]` _must_ be equal to magic constant `0x00` (TODO: It is used in "warm white" mode)
+1. `payload[4]` _must_ be equal to magic constant `0x00`
 1. `payload[5]` _must_ be equal to magic constant `0xF0`
 1. `payload[6]` _must_ be equal to magic constant `0xAA`
 
@@ -169,6 +169,82 @@ Payload _must_ be 7 bytes long.
 			<td title="Constant value 0xF0"><code>0xF0</code></td>
 			<td title="Constant value 0xAA"><code>0xAA</code></td>
 			<td>Static&nbsp;violet&nbsp;color</td>
+		</tr>
+	</tbody>
+</table>
+</details>
+
+## White color
+
+White color is set via write request to `FFD9` characteristic under `FFD5` servce. Check [the code](../../app/commands/color.go) for more details.
+
+#### Request
+
+<table>
+	<tbody>
+		<tr>
+			<td>Type</td>
+			<td>Write</td>
+		</tr>
+		<tr>
+			<td>Write to</td>
+			<td><code>FFD9</code></td>
+		</tr>
+		<tr>
+			<td>Payload</td>
+			<td>See below</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Payload description
+
+Payload _must_ be 7 bytes long.
+
+1. `payload[0]` _must_ be equal to magic constant `0x56`
+1. `payload[1]`: not used
+1. `payload[2]`: not used
+1. `payload[3]`: not used
+1. `payload[4]`: intensity
+1. `payload[5]` _must_ be equal to magic constant `0x0F`
+1. `payload[6]` _must_ be equal to magic constant `0xAA`
+
+#### Examples
+
+<details>
+<table>
+	<thead>
+		<tr>
+			<th>Magic</th>
+			<th>N/A</th>
+			<th>N/A</th>
+			<th>N/A</th>
+			<th>Intensity</th>
+			<th>Magic</th>
+			<th>Magic</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td title="Constant value 0x56"><code>0x56</code></td>
+			<td title="N/A"><code>0xDE</code></td>
+			<td title="N/A"><code>0xAD</code></td>
+			<td title="N/A"><code>0xFF</code></td>
+			<td title="Intensity"><code>0x01</code></td>
+			<td title="Constant value 0x0F"><code>0x0F</code></td>
+			<td title="Constant value 0xAA"><code>0xAA</code></td>
+			<td>Lowest possible intensity</td>
+		</tr>
+		<tr>
+			<td title="Constant value 0x56"><code>0x56</code></td>
+			<td title="N/A"><code>0xCA</code></td>
+			<td title="N/A"><code>0xFE</code></td>
+			<td title="N/A"><code>0x00</code></td>
+			<td title="Intensity"><code>0xFF</code></td>
+			<td title="Constant value 0x0F"><code>0x0F</code></td>
+			<td title="Constant value 0xAA"><code>0xAA</code></td>
+			<td>Highest possible intensity</td>
 		</tr>
 	</tbody>
 </table>
