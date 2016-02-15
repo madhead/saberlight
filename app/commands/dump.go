@@ -43,11 +43,8 @@ func Dump() {
 				}
 
 				for _, service := range services {
-					msg := "Service: " + service.UUID().String()
+					msg := fmt.Sprintf("Service: %v [%+v] (%v)", service.UUID(), service.UUID(), service.Name())
 
-					if len(service.Name()) > 0 {
-						msg += " (" + service.Name() + ")"
-					}
 					log.Info.Println(msg)
 
 					characteristics, err := peripheral.DiscoverCharacteristics(nil, service)
@@ -58,11 +55,8 @@ func Dump() {
 					}
 
 					for _, characteristic := range characteristics {
-						msg := "\tCharacteristic:  " + characteristic.UUID().String()
+						msg := fmt.Sprintf("\tCharacteristic: %v [%+v] (%v)", characteristic.UUID(), characteristic.UUID(), characteristic.Name())
 
-						if len(characteristic.Name()) > 0 {
-							msg += " (" + characteristic.Name() + ")"
-						}
 						log.Info.Println(msg)
 						log.Info.Printf("\t\tProperties: %s\n", characteristic.Properties().String())
 
@@ -86,11 +80,8 @@ func Dump() {
 						}
 
 						for _, descriptor := range descriptors {
-							msg := "\t\tDescriptor: " + descriptor.UUID().String()
+							msg := fmt.Sprintf("\t\tDescriptor: %v [%+v] (%v)", descriptor.UUID(), descriptor.UUID(), descriptor.Name())
 
-							if len(descriptor.Name()) > 0 {
-								msg += " (" + descriptor.Name() + ")"
-							}
 							log.Info.Println(msg)
 
 							value, err := peripheral.ReadDescriptor(descriptor)
