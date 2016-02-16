@@ -26,5 +26,7 @@ func main() {
 		commands.White()
 	case cli.Mode.FullCommand():
 		commands.Mode()
+	case cli.Time.FullCommand():
+		commands.Time()
 	}
 }

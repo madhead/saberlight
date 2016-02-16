@@ -53,4 +53,7 @@ var (
 		...
 		0xFF: The slowest
 	`).Required().Uint8()
+	Time       = App.Command("time", "Get or set bulb's time")
+	TimeTarget = Time.Arg("id", "Target bulb").Required().String()
+	TimeTime   = Time.Arg("time", "Time to set in seconds since 1970-01-01 00:00:00 UTC").Default("-1").Int64()
 )

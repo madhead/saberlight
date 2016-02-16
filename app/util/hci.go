@@ -62,6 +62,15 @@ func OpenHCI() (gatt.Device, error) {
 
 // GetCharacteristic searches for a characteristic by its UUID
 func GetCharacteristic(peripheral gatt.Peripheral, serviceUUID gatt.UUID, characteristicUUID gatt.UUID) (*gatt.Characteristic, error) {
+	return getCharacteristic(peripheral, serviceUUID, characteristicUUID, false)
+}
+
+// GetCharacteristicWithDescriptors searches for a characteristic by its UUID and also discovers descriptors for it, which is used when subscribing to notofications
+func GetCharacteristicWithDescriptors(peripheral gatt.Peripheral, serviceUUID gatt.UUID, characteristicUUID gatt.UUID) (*gatt.Characteristic, error) {
+	return getCharacteristic(peripheral, serviceUUID, characteristicUUID, true)
+}
+
+func getCharacteristic(peripheral gatt.Peripheral, serviceUUID gatt.UUID, characteristicUUID gatt.UUID, discoverDescriptors bool) (*gatt.Characteristic, error) {
 	services, err := peripheral.DiscoverServices(nil)
 
 	if err != nil {
@@ -80,6 +89,14 @@ func GetCharacteristic(peripheral gatt.Peripheral, serviceUUID gatt.UUID, charac
 
 			for _, characteristic := range characteristics {
 				if characteristic.UUID().Equal(characteristicUUID) {
+					if discoverDescriptors {
+						_, err := peripheral.DiscoverDescriptors(nil, characteristic)
+
+						if err != nil {
+							log.Info.Printf("Failed to discover descriptors: %v\n", err)
+						}
+					}
+
 					return characteristic, nil
 				}
 			}
