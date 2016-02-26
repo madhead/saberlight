@@ -7,7 +7,7 @@ PROCYON_VERSION=${PROCYON_VERSION-0.5.30}
 CFR_VERSION=${CFR_VERSION-0_110}
 ANT_VERSION=${ANT_VERSION-1.9.6}
 
-find $DIR ! -path $DIR ! -name "apk.sh" -delete
+find $DIR ! -path $DIR ! -name "apk.sh" ! -name "README.md" -delete
 wget -O $DIR/app.apk http://down.mumayi.com/881461
 
 mkdir $DIR/tools
