@@ -63,7 +63,7 @@ func colorFunction(target *string, red, green, blue, intensity *byte, white bool
 		device.Scan([]gatt.UUID{}, false)
 
 		select {
-		case <-time.After(*cli.ScanPeriod):
+		case <-time.After(*cli.OperationTimeout):
 			log.Error.Println("Failed to set bulb's color")
 			os.Exit(util.ExitStatusGenericError)
 		case <-done:

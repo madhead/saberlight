@@ -107,7 +107,7 @@ func Dump() {
 	device.Scan([]gatt.UUID{}, false)
 
 	select {
-	case <-time.After(*cli.ScanPeriod):
+	case <-time.After(*cli.OperationTimeout):
 		log.Error.Println("Failed to dump target device")
 		os.Exit(util.ExitStatusGenericError)
 	case <-done:

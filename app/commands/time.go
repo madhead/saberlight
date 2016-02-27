@@ -65,7 +65,7 @@ func Time() {
 	device.Scan([]gatt.UUID{}, false)
 
 	select {
-	case <-time.After(*cli.ScanPeriod):
+	case <-time.After(*cli.OperationTimeout):
 		log.Error.Println("Failed to set time for target device")
 		os.Exit(util.ExitStatusGenericError)
 	case <-done:

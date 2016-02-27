@@ -27,7 +27,7 @@ func Scan() {
 
 	log.Info.Println("Scanning devices")
 	device.Scan([]gatt.UUID{}, false)
-	time.Sleep(*cli.ScanPeriod)
+	time.Sleep(*cli.OperationTimeout)
 	device.StopScanning()
 	log.Info.Println("Scan results:")
 	for id, peripheral := range peripherals {

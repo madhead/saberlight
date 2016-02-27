@@ -76,7 +76,7 @@ func Timings() {
 	device.Scan([]gatt.UUID{}, false)
 
 	select {
-	case <-time.After(*cli.ScanPeriod):
+	case <-time.After(*cli.OperationTimeout):
 		log.Error.Println("Failed to get timings for target device")
 		os.Exit(util.ExitStatusGenericError)
 	case <-done:

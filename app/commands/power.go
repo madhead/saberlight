@@ -61,7 +61,7 @@ func powerManagementFunction(target *string, status bool) func() {
 		device.Scan([]gatt.UUID{}, false)
 
 		select {
-		case <-time.After(*cli.ScanPeriod):
+		case <-time.After(*cli.OperationTimeout):
 			log.Error.Println("Failed to change bulb's power status")
 			os.Exit(util.ExitStatusGenericError)
 		case <-done:
