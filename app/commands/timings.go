@@ -12,8 +12,8 @@ import (
 	"github.com/paypal/gatt"
 )
 
-// Timing gets active device's timings
-func Timing() {
+// Timings gets active device's timings
+func Timings() {
 	device, err := util.OpenHCI()
 
 	if err != nil {
@@ -23,7 +23,7 @@ func Timing() {
 	done := make(chan bool)
 
 	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
-		if strings.ToUpper(*cli.TimingTarget) == strings.ToUpper(peripheral.ID()) {
+		if strings.ToUpper(*cli.TimingsTarget) == strings.ToUpper(peripheral.ID()) {
 			log.Info.Println("Device found")
 
 			device.Handle(gatt.PeripheralConnected(func(peripheral gatt.Peripheral, err error) {

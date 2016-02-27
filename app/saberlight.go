@@ -28,7 +28,7 @@ func main() {
 		commands.Mode()
 	case cli.Time.FullCommand():
 		commands.Time()
-	case cli.Timing.FullCommand():
-		commands.Timing()
+	case cli.Timings.FullCommand():
+		commands.Timings()
 	}
 }
