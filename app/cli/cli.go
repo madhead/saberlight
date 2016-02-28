@@ -16,6 +16,8 @@ var (
 	OffTarget        = Off.Arg("id", "Target bulb").Required().String()
 	Dump             = App.Command("dump", "Dump bulb")
 	DumpTarget       = Dump.Arg("id", "Bulb to dump").Required().String()
+	Status           = App.Command("status", "Query bulb's status")
+	StatusTarget     = Status.Arg("id", "Target bulb").Required().String()
 	Color            = App.Command("color", "Set static color")
 	ColorTarget      = Color.Arg("id", "Target bulb").Required().String()
 	ColorRed         = Color.Arg("red", "Red color component").Required().Uint8()

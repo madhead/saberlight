@@ -20,6 +20,8 @@ func main() {
 		commands.Off()
 	case cli.Dump.FullCommand():
 		commands.Dump()
+	case cli.Status.FullCommand():
+		commands.Status()
 	case cli.Color.FullCommand():
 		commands.Color()
 	case cli.White.FullCommand():
