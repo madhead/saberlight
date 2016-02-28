@@ -61,7 +61,7 @@ func Timings() {
 					data = append(data, chunk...)
 				}
 				for i := 0; i < 6; i++ {
-					log.Info.Printf("Timing #%v: Days: %v, Hour: %02v, Minute: %02v, Turn on?: %v, Open?: %v, \n", i+1, days(data[i*14+8]), data[i*14+5], data[i*14+6], data[i*14+14] == 240, data[i*14+1] == 240)
+					log.Info.Printf("Timing #%v: Days: %v, Hour: %02v, Minute: %02v, Turn on?: %v, Open?: %v\n", i+1, days(data[i*14+8]), data[i*14+5], data[i*14+6], data[i*14+14] == 240, data[i*14+1] == 240)
 				}
 
 				done <- true
@@ -84,8 +84,6 @@ func Timings() {
 	}
 }
 
-/*
- */
 const (
 	all = 254
 	mon = 2
@@ -99,7 +97,7 @@ const (
 
 func days(days byte) []string {
 	if days == all {
-		return []string{"ALL"}
+		return []string{"EVERY DAY"}
 	}
 
 	var result []string
