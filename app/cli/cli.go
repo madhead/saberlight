@@ -55,9 +55,9 @@ var (
 		...
 		0xFF: The slowest
 	`).Required().Uint8()
-	Time          = App.Command("time", "Set bulb's time")
-	TimeTarget    = Time.Arg("id", "Target bulb").Required().String()
-	TimeTime      = Time.Arg("time", "Time to set in seconds since 1970-01-01 00:00:00 UTC").Required().Int64()
-	Timings       = App.Command("timings", "Get active timings")
-	TimingsTarget = Timings.Arg("id", "Target bulb").Required().String()
+	Time           = App.Command("time", "Set bulb's time")
+	TimeTarget     = Time.Arg("id", "Target bulb").Required().String()
+	TimeTime       = Time.Arg("time", "Time to set in seconds since 1970-01-01 00:00:00 UTC").Required().Int64()
+	Schedule       = App.Command("schedule", "Get active schedule")
+	ScheduleTarget = Schedule.Arg("id", "Target bulb").Required().String()
 )

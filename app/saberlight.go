@@ -30,7 +30,7 @@ func main() {
 		commands.Mode()
 	case cli.Time.FullCommand():
 		commands.Time()
-	case cli.Timings.FullCommand():
-		commands.Timings()
+	case cli.Schedule.FullCommand():
+		commands.Schedule()
 	}
 }
