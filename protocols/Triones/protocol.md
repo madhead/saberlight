@@ -48,6 +48,7 @@ Status request is used to query some generic bulb parameters, like power status,
 #### Notification description
 
 Resulting notification _must_ be 12 bytes long.
+
 1. `result[0]` _must_ be equal to magic constant `0x66`
 1. `result[1]`: ???
 1. `result[2]`: power status:
