@@ -37,6 +37,11 @@ func Time() {
 				}
 
 				now := time.Unix(*cli.TimeTime, 0)
+				dayOfWeek := now.Weekday()
+
+				if dayOfWeek == 0 {
+					dayOfWeek = 7
+				}
 
 				log.Info.Printf("Time will be set to %v\n", now)
 				peripheral.WriteCharacteristic(characteristic, []byte{
@@ -48,7 +53,7 @@ func Time() {
 					byte(now.Hour()),
 					byte(now.Minute()),
 					byte(now.Second()),
-					byte(now.Weekday()),
+					byte(dayOfWeek),
 					0x00,
 					0x01,
 				}, false)
