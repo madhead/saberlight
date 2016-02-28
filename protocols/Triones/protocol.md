@@ -578,8 +578,11 @@ Payload _must_ be 11 bytes long.
 		</tr>
 	</tbody>
 </table>
-
 </details>
+
+## Timings
+
+TODO
 
 # Magic constants
 
