@@ -2,6 +2,7 @@ package commands
 
 import (
 	"os"
+	"strings"
 	"time"
 
 	"github.com/madhead/saberlight/app/cli"
@@ -22,7 +23,9 @@ func Scan() {
 	peripherals := make(map[string]gatt.Peripheral)
 
 	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
-		peripherals[peripheral.ID()] = peripheral
+		if strings.HasPrefix(peripheral.Name(), "Triones") {
+			peripherals[peripheral.ID()] = peripheral
+		}
 	}))
 
 	log.Info.Println("Scanning devices")
