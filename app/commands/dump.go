@@ -2,9 +2,7 @@ package commands
 
 import (
 	"fmt"
-	"os"
 	"strings"
-	"time"
 
 	"github.com/madhead/saberlight/app/cli"
 	"github.com/madhead/saberlight/app/util"
@@ -15,22 +13,14 @@ import (
 
 // Dump dumps target BLE bulb to stdout
 func Dump() {
-	device, err := util.OpenHCI()
-
-	if err != nil {
-		os.Exit(util.ExitStatusHCIError)
-	}
-
-	done := make(chan bool)
-
-	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
+	util.Operate(func(device gatt.Device, peripheral gatt.Peripheral, done chan bool) {
 		if strings.ToUpper(*cli.DumpTarget) == strings.ToUpper(peripheral.ID()) {
 			log.Info.Println("Target found:")
 			log.Info.Printf("\tID: %s, Name: %v\n", peripheral.ID(), peripheral.Name())
-			log.Info.Printf("\tLocal Name: %v\n", advertisement.LocalName)
-			log.Info.Printf("\tTX Power Level: %v\n", advertisement.TxPowerLevel)
-			log.Info.Printf("\tManufacturer Data: %v\n", advertisement.ManufacturerData)
-			log.Info.Printf("\tService Data: %v\n", advertisement.ServiceData)
+			// log.Info.Printf("\tLocal Name: %v\n", advertisement.LocalName)
+			// log.Info.Printf("\tTX Power Level: %v\n", advertisement.TxPowerLevel)
+			// log.Info.Printf("\tManufacturer Data: %v\n", advertisement.ManufacturerData)
+			// log.Info.Printf("\tService Data: %v\n", advertisement.ServiceData)
 
 			device.Handle(gatt.PeripheralConnected(func(peripheral gatt.Peripheral, err error) {
 				defer device.CancelConnection(peripheral)
@@ -101,16 +91,5 @@ func Dump() {
 			device.StopScanning()
 			device.Connect(peripheral)
 		}
-	}))
-
-	log.Info.Println("Scanning devices")
-	device.Scan([]gatt.UUID{}, false)
-
-	select {
-	case <-time.After(*cli.OperationTimeout):
-		log.Error.Println("Failed to dump target device")
-		os.Exit(util.ExitStatusGenericError)
-	case <-done:
-		log.Info.Println("Target device dumped")
-	}
+	})
 }

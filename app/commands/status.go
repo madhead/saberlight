@@ -3,7 +3,6 @@ package commands
 import (
 	"os"
 	"strings"
-	"time"
 
 	"github.com/madhead/saberlight/app/cli"
 	"github.com/madhead/saberlight/app/util"
@@ -14,18 +13,8 @@ import (
 
 // Status queries for bulb's status
 func Status() {
-	device, err := util.OpenHCI()
-
-	if err != nil {
-		os.Exit(util.ExitStatusHCIError)
-	}
-
-	done := make(chan bool)
-
-	device.Handle(gatt.PeripheralDiscovered(func(peripheral gatt.Peripheral, advertisement *gatt.Advertisement, rssi int) {
+	util.Operate(func(device gatt.Device, peripheral gatt.Peripheral, done chan bool) {
 		if strings.ToUpper(*cli.StatusTarget) == strings.ToUpper(peripheral.ID()) {
-			log.Info.Println("Device found")
-
 			device.Handle(gatt.PeripheralConnected(func(peripheral gatt.Peripheral, err error) {
 				defer device.CancelConnection(peripheral)
 
@@ -69,16 +58,5 @@ func Status() {
 			device.StopScanning()
 			device.Connect(peripheral)
 		}
-	}))
-
-	log.Info.Println("Scanning devices")
-	device.Scan([]gatt.UUID{}, false)
-
-	select {
-	case <-time.After(*cli.OperationTimeout):
-		log.Error.Println("Failed to query status for target device")
-		os.Exit(util.ExitStatusGenericError)
-	case <-done:
-		log.Info.Println("Status queried successfully")
-	}
+	})
 }
