@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-APKTOOL_VERSION=${APKTOOL_VERSION-2.0.3}
+APKTOOL_VERSION=${APKTOOL_VERSION-2.2.4}
 DEX2JAR_VERSION=${DEX2JAR_VERSION-2.0}
 PROCYON_VERSION=${PROCYON_VERSION-0.5.30}
-CFR_VERSION=${CFR_VERSION-0_110}
-ANT_VERSION=${ANT_VERSION-1.9.6}
+CFR_VERSION=${CFR_VERSION-0_122}
+ANT_VERSION=${ANT_VERSION-1.10.1}
 
-find $DIR ! -path $DIR ! -name "apk.sh" ! -name "README.md" -delete
+find $DIR ! -path $DIR ! -name "apk.sh" ! -name "app.apk" ! -name "README.md" -delete
 wget -O $DIR/app.apk http://down.mumayi.com/881461
 
 mkdir $DIR/tools
