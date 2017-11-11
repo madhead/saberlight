@@ -1,14 +1,3 @@
-language: go
-
-go:
-  - 1.5
-
-sudo: false
-
-env:
-  global:
-    - GOOS=linux
-    - GOARCH=amd64
-    - GO15VENDOREXPERIMENT=1
-
-script: make test
+language: java
+jdk:
+  - oraclejdk8
