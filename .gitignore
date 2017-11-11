@@ -8,3 +8,5 @@ apk/**
 app/saberlight
 app/app
 tags
+
+.gradle

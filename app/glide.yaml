@@ -1,6 +1,0 @@
-package: saberlight
-import:
-  - package: github.com/paypal/gatt
-    version: 4ae819d591cfc94c496c45deb55928469542beec
-  - package: github.com/alecthomas/kingpin
-    version: v2.0.15
