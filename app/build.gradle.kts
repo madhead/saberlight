@@ -9,7 +9,7 @@ repositories {
 kotlin {
     linuxArm32Hfp("raspberrypi") {
         binaries {
-            executable {
+            executable("saberlight") {
                 entryPoint = "by.dev.madhead.saberlight.main"
             }
         }

@@ -1,0 +1,37 @@
+stages:
+  - Build
+  - Test
+  - Deploy
+
+build:
+  stage: Build
+  image: openjdk:12
+  dependencies: []
+  script:
+    - ./gradlew clean assemble
+  artifacts:
+    paths:
+      - app/build/bin/raspberrypi/saberlightReleaseExecutable/saberlight.kexe
+    expire_in: '43200'
+
+gradle-version:
+  stage: Test
+  image: openjdk:12
+  dependencies: []
+  script:
+    - gradle_version=$(./gradlew --version | sed -rn 's/^Gradle (.+)$/\1/p')
+    - latest_gradle_version=$(curl https://services.gradle.org/versions/current | python2 -c 'import json,sys;print json.load(sys.stdin)["version"]')
+    - echo $gradle_version
+    - echo $latest_gradle_version
+    - '[[ $gradle_version == $latest_gradle_version ]]'
+  allow_failure: true
+
+deploy:
+  tags:
+    - raspberrypi-1
+  stage: Deploy
+  dependencies:
+    - build
+  script:
+    - sudo mkdir -p /opt/saberlight
+    - sudo cp app/build/bin/raspberrypi/saberlightReleaseExecutable/saberlight.kexe /opt/saberlight/saberlight
