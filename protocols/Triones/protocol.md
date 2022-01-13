@@ -229,8 +229,8 @@ Power is turned on and off via write request to `FFD9` characteristic under `FFD
 Payload _must_ be 3 bytes long.
 
 1. `payload[0]` _must_ be equal to magic constant `0xCC`
-1. `payload[3]`: `0x23` for "ON" and `0x24` for "OFF"
-1. `payload[6]` _must_ be equal to magic constant `0x33`
+1. `payload[1]`: `0x23` for "ON" and `0x24` for "OFF"
+1. `payload[2]` _must_ be equal to magic constant `0x33`
 
 #### Example
 
